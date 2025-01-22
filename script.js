@@ -76,23 +76,32 @@ function replaceLastChar(){
 // logic for background color
 const bgbutton = document.getElementById("bgcolor-btn");
 const body = document.body;
+let isRunning = false;
+let hue = 0;
 
 bgbutton.addEventListener("click", async function() {
-    const body = document.body;
-    let hue = 0;
+
+    // repeat running protection / switching
+    if(isRunning == true) {
+        isRunning = false;
+        bgbutton.innerText = "Change Background Color"
+        return;
+    }
+
+    // bgbutton.disabled = true
+
 
     function changeBackgroundColor() {
-        hue = (hue + 5) % 360; // Increment hue and wrap around at 360
+        hue = (hue + 2) % 360; // Increment hue and wrap around at 360
         body.style.backgroundColor = `hsl(${hue}, 100%, 50%)`; // Set background color using HSL
-        // requestAnimationFrame(changeBackgroundColor); // Call the function again on the next frame
     }
 
-    while (true) {
+    isRunning = true;
+    bgbutton.innerText = "Pause Changing Background Color"
+    while (true && isRunning) {
         requestAnimationFrame(changeBackgroundColor); // Call the function again on the next frame
-        await delay(21);
+        await delay(12);
     }
-
-    // changeBackgroundColor(); // Start the color change loop
 });
 
 
